@@ -202,17 +202,17 @@ const UserSearchPanel = () => {
                   }
                 />
 
-                {/* <TextField
-                  fieldName="Fullname"
+                <TextField
+                  fieldName="FullName"
                   onQueryChange={(key, query) => {
                     setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
                     _options.updateQuery(key, query)
                   }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Fullname')}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'FullName')}
                   helperText={
                     searchdata.fullnameFieldQuery
                       ? `Field Query: ${searchdata.fullnameFieldQuery}`
-                      : 'Query on the DisplayName'
+                      : 'Query on the FullName'
                   }
                 />
 
@@ -226,7 +226,7 @@ const UserSearchPanel = () => {
                   helperText={
                     searchdata.jobtitleFieldQuery
                       ? `Field Query: ${searchdata.jobtitleFieldQuery}`
-                      : 'Query on the DisplayName'
+                      : 'Query on the JobTitle'
                   }
                 />
 
@@ -236,13 +236,109 @@ const UserSearchPanel = () => {
                     setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
                     _options.updateQuery(key, query)
                   }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'manager')}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Manager')}
                   helperText={
                     searchdata.managerFieldQuery
                       ? `Field Query: ${searchdata.managerFieldQuery}`
-                      : 'Query on the DisplayName'
+                      : 'Query on the Manager'
                   }
-                /> */}
+                />
+
+                <TextField
+                  fieldName="Department"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Department')}
+                  helperText={
+                    searchdata.departmentFieldQuery
+                      ? `Field Query: ${searchdata.departmentFieldQuery}`
+                      : 'Query on the Department'
+                  }
+                />
+
+                <TextField
+                  fieldName="Department"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Department')}
+                  helperText={
+                    searchdata.departmentFieldQuery
+                      ? `Field Query: ${searchdata.departmentFieldQuery}`
+                      : 'Query on the Department'
+                  }
+                />
+
+                <TextField
+                  fieldName="Languages"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Languages')}
+                  helperText={
+                    searchdata.languagesFieldQuery
+                      ? `Field Query: ${searchdata.languagesFieldQuery}`
+                      : 'Query on the Languages'
+                  }
+                />
+
+                <TextField
+                  fieldName="Gender"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Gender')}
+                  helperText={
+                    searchdata.genderFieldQuery
+                      ? `Field Query: ${searchdata.genderFieldQuery}`
+                      : 'Query on the MaritalStatus'
+                  }
+                />
+
+                <TextField
+                  fieldName="MaritalStatus"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'MaritalStatus')}
+                  helperText={
+                    searchdata.maritalstatusFieldQuery
+                      ? `Field Query: ${searchdata.maritalstatusFieldQuery}`
+                      : 'Query on the MaritalStatus'
+                  }
+                />
+
+                <TextField
+                  fieldName="MaritalStatus"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'MaritalStatus')}
+                  helperText={
+                    searchdata.maritalstatusFieldQuery
+                      ? `Field Query: ${searchdata.maritalstatusFieldQuery}`
+                      : 'Query on the MaritalStatus'
+                  }
+                />
+
+                <TextField
+                  fieldName="Phone"
+                  onQueryChange={(key, query) => {
+                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Phone')}
+                  helperText={
+                    searchdata.phoneFieldQuery ? `Field Query: ${searchdata.phoneFieldQuery}` : 'Query on the Phone'
+                  }
+                />
 
                 {/* <FormControlA>
                   <InputLabel htmlFor="type-filter">Created at</InputLabel>
