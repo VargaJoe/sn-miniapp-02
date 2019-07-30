@@ -10,10 +10,10 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Divider from '@material-ui/core/Divider'
-// import FormControlA from '@material-ui/core/FormControl'
-// import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import IconButton from '@material-ui/core/IconButton'
-// import InputLabel from '@material-ui/core/InputLabel'
+import InputLabel from '@material-ui/core/InputLabel'
 // import ListItemText from '@material-ui/core/ListItemText'
 // import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
@@ -28,10 +28,10 @@ import Typography from '@material-ui/core/Typography'
 
 // sensenet
 import { ODataCollectionResponse } from '@sensenet/client-core'
-import { GenericContent, ReferenceFieldSetting, User } from '@sensenet/default-content-types'
+import { ChoiceFieldSetting, GenericContent, ReferenceFieldSetting, User } from '@sensenet/default-content-types'
 import { MaterialIcon } from '@sensenet/icons-react'
 import { Query } from '@sensenet/query'
-import { AdvancedSearch, ReferenceField, TextField } from '@sensenet/search-react'
+import { AdvancedSearch, PresetField, ReferenceField, TextField } from '@sensenet/search-react'
 import { useRepository } from '../hooks/use-repository'
 
 const localStorageKey = 'sn-advanced-search-demo'
@@ -106,7 +106,16 @@ const UserSearchPanel = () => {
         metadata: 'no',
         inlinecount: 'allpages',
         query: searchdata.fullQuery,
-        select: ['DisplayName', 'Description', 'CreationDate', 'CreatedBy', 'Avatar', 'Fullname', 'Email'] as any,
+        select: [
+          'DisplayName',
+          'Description',
+          'CreationDate',
+          'CreatedBy',
+          'Avatar',
+          'Fullname',
+          'Email',
+          'Language',
+        ] as any,
         orderby: ['FullName', ['CreationDate', 'desc']],
       },
     })
@@ -114,15 +123,37 @@ const UserSearchPanel = () => {
     setSearchdata(prevState => ({ ...prevState, response: result }))
   }
 
-  // constructor(props: {}) {
-  //   super(props)
-  //   this.sendRequest = this.sendRequest.bind(this)
-  // }
+  // get language options
+  const fieldSettings = repo.schemas.getSchemaByName('User').FieldSettings
+  const langSetting = fieldSettings.find(f => f.Name === 'Language') as ChoiceFieldSetting
+  const genderSetting = fieldSettings.find(f => f.Name === 'Gender') as ChoiceFieldSetting
+  const maritalSetting = fieldSettings.find(f => f.Name === 'MaritalStatus') as ChoiceFieldSetting
+  const languages =
+    langSetting !== undefined && langSetting.Options !== undefined
+      ? langSetting.Options.map(l => ({
+          text: l.Text ? l.Text : '',
+          value: new Query(a => a.term(`Language:${l.Value}`)),
+        }))
+      : [{ text: 'English', value: new Query(a => a.term(`Language:en`)) }]
 
+  const genders =
+    genderSetting !== undefined && genderSetting.Options !== undefined
+      ? genderSetting.Options.map(l => ({
+          text: l.Text ? l.Text : '',
+          value: new Query(a => a.term(`Gender:${l.Value}`)),
+        }))
+      : [{ text: '', value: new Query(a => a.term(`Gender:Female`)) }]
+
+  const maritals =
+    maritalSetting !== undefined && maritalSetting.Options !== undefined
+      ? maritalSetting.Options.map(l => ({
+          text: l.Text ? l.Text : '',
+          value: new Query(a => a.term(`MaritalStatus:${l.Value}`)),
+        }))
+      : [{ text: '', value: new Query(a => a.term(`MaritalStatus:`)) }]
   /**
    * Renders the component
    */
-
   return (
     <div style={{ height: '100%' }}>
       <AppBar position="static" color="primary">
@@ -230,20 +261,6 @@ const UserSearchPanel = () => {
                   }
                 />
 
-                <TextField
-                  fieldName="Manager"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Manager')}
-                  helperText={
-                    searchdata.managerFieldQuery
-                      ? `Field Query: ${searchdata.managerFieldQuery}`
-                      : 'Query on the Manager'
-                  }
-                />
-
                 <ReferenceField
                   fieldName="DisplayName"
                   fieldSetting={{
@@ -298,47 +315,52 @@ const UserSearchPanel = () => {
                   }
                 />
 
-                <TextField
-                  fieldName="Languages"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Languages')}
-                  helperText={
-                    searchdata.languagesFieldQuery
-                      ? `Field Query: ${searchdata.languagesFieldQuery}`
-                      : 'Query on the Languages'
-                  }
-                />
+                <FormControl>
+                  <InputLabel htmlFor="type-filter">Language</InputLabel>
+                  <PresetField
+                    fieldName="Language"
+                    presets={[{ text: '-', value: new Query(a => a) }, ...languages]}
+                    onQueryChange={(key, query) => {
+                      setSearchdata(prevState => ({ ...prevState, languagesFieldQuery: query.toString() }))
+                      _options.updateQuery(key, query)
+                    }}
+                  />
+                  <FormHelperText>
+                    {searchdata.languagesFieldQuery.length ? searchdata.languagesFieldQuery : 'Filter by language'}
+                  </FormHelperText>
+                </FormControl>
 
-                <TextField
-                  fieldName="Gender"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Gender')}
-                  helperText={
-                    searchdata.genderFieldQuery
-                      ? `Field Query: ${searchdata.genderFieldQuery}`
-                      : 'Query on the MaritalStatus'
-                  }
-                />
+                <FormControl>
+                  <InputLabel htmlFor="type-filter">Gender</InputLabel>
+                  <PresetField
+                    fieldName="Gender"
+                    presets={genders}
+                    onQueryChange={(key, query) => {
+                      setSearchdata(prevState => ({ ...prevState, genderFieldQuery: query.toString() }))
+                      _options.updateQuery(key, query)
+                    }}
+                  />
+                  <FormHelperText>
+                    {searchdata.genderFieldQuery.length ? searchdata.genderFieldQuery : 'Filter by gender'}
+                  </FormHelperText>
+                </FormControl>
 
-                <TextField
-                  fieldName="MaritalStatus"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'MaritalStatus')}
-                  helperText={
-                    searchdata.maritalstatusFieldQuery
-                      ? `Field Query: ${searchdata.maritalstatusFieldQuery}`
-                      : 'Query on the MaritalStatus'
-                  }
-                />
+                <FormControl>
+                  <InputLabel htmlFor="type-filter">Marital Status</InputLabel>
+                  <PresetField
+                    fieldName="MaritalStatus"
+                    presets={maritals}
+                    onQueryChange={(key, query) => {
+                      setSearchdata(prevState => ({ ...prevState, maritalstatusFieldQuery: query.toString() }))
+                      _options.updateQuery(key, query)
+                    }}
+                  />
+                  <FormHelperText>
+                    {searchdata.genderFieldQuery.length
+                      ? searchdata.maritalstatusFieldQuery
+                      : 'Filter by marital status'}
+                  </FormHelperText>
+                </FormControl>
 
                 <TextField
                   fieldName="MaritalStatus"
@@ -415,31 +437,6 @@ const UserSearchPanel = () => {
                     {searchdata.typeFieldQuery.length ? searchdata.typeFieldQuery : 'Filter in all content types'}
                   </FormHelperText>
                 </FormControlA> */}
-                {/* <ReferenceField
-                  fieldName="CreatedBy"
-                  fieldSetting={{
-                    ...(_options.schema.FieldSettings.find(s => s.Name === 'CreatedBy') as ReferenceFieldSetting),
-                    AllowedTypes: ['User'],
-                  }}
-                  fetchItems={async q => {
-                    const response = await repo.loadCollection<GenericContent>({
-                      path: demoData.idOrPath as string, // ToDo: query by Id in client-core
-                      oDataOptions: {
-                        select: ['Id', 'Path', 'Name', 'DisplayName', 'Type'],
-                        metadata: 'no',
-                        inlinecount: 'allpages',
-                        query: q.toString(),
-                        top: 10,
-                      },
-                    })
-                    return response.d.results
-                  }}
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, referenceFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  helperText={searchdata.referenceFieldQuery || 'Search a content creator'}
-                /> */}
 
                 <button style={{ display: 'none' }} type="submit" />
               </form>
