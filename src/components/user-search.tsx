@@ -106,16 +106,7 @@ const UserSearchPanel = () => {
         metadata: 'no',
         inlinecount: 'allpages',
         query: searchdata.fullQuery,
-        select: [
-          'DisplayName',
-          'Description',
-          'CreationDate',
-          'CreatedBy',
-          'Avatar',
-          'Fullname',
-          'Email',
-          'Language',
-        ] as any,
+        select: ['Avatar', 'Email', 'Fullname', 'LoginName'] as any,
         orderby: ['FullName', ['CreationDate', 'desc']],
       },
     })
@@ -471,21 +462,23 @@ const UserSearchPanel = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>Path</TableCell>
+                  <TableCell>Avatar</TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Display name</TableCell>
-                  <TableCell>Type</TableCell>
+                  <TableCell>Email</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {searchdata.response.d.results.map(r => (
                   <TableRow key={r.Id}>
-                    <TableCell>{r.Id}</TableCell>
-                    <TableCell>{r.Path}</TableCell>
-                    <TableCell>{r.Name}</TableCell>
-                    <TableCell>{r.DisplayName}</TableCell>
-                    <TableCell>{r.Type}</TableCell>
+                    <TableCell>
+                      {r.Avatar !== undefined && r.Avatar.Url ? (
+                        <img src={repo.configuration.repositoryUrl + r.Avatar.Url} />
+                      ) : (
+                        ''
+                      )}
+                    </TableCell>
+                    <TableCell>{r.FullName ? r.FullName : r.LoginName}</TableCell>
+                    <TableCell>{r.Email}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
