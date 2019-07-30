@@ -28,10 +28,10 @@ import Typography from '@material-ui/core/Typography'
 
 // sensenet
 import { ODataCollectionResponse } from '@sensenet/client-core'
-import { User } from '@sensenet/default-content-types'
+import { GenericContent, ReferenceFieldSetting, User } from '@sensenet/default-content-types'
 import { MaterialIcon } from '@sensenet/icons-react'
-// import { Query } from '@sensenet/query'
-import { AdvancedSearch, TextField } from '@sensenet/search-react'
+import { Query } from '@sensenet/query'
+import { AdvancedSearch, ReferenceField, TextField } from '@sensenet/search-react'
 import { useRepository } from '../hooks/use-repository'
 
 const localStorageKey = 'sn-advanced-search-demo'
@@ -242,6 +242,32 @@ const UserSearchPanel = () => {
                       ? `Field Query: ${searchdata.managerFieldQuery}`
                       : 'Query on the Manager'
                   }
+                />
+
+                <ReferenceField
+                  fieldName="DisplayName"
+                  fieldSetting={{
+                    ...(_options.schema.FieldSettings.find(s => s.Name === 'Manager') as ReferenceFieldSetting),
+                    AllowedTypes: ['User'],
+                  }}
+                  fetchItems={async (q: Query<GenericContent>) => {
+                    const response = await repo.loadCollection<GenericContent>({
+                      path: demoData.idOrPath as string, // ToDo: query by Id in client-core
+                      oDataOptions: {
+                        select: ['Id', 'Path', 'Name', 'DisplayName', 'Type'],
+                        metadata: 'no',
+                        inlinecount: 'allpages',
+                        query: q.toString(),
+                        top: 10,
+                      },
+                    })
+                    return response.d.results
+                  }}
+                  onQueryChange={(key: any, query: any) => {
+                    setSearchdata(prevState => ({ ...prevState, managerFieldQuery: query.toString() }))
+                    _options.updateQuery(key, query)
+                  }}
+                  helperText={searchdata.managerFieldQuery || 'Search a user manager'}
                 />
 
                 <TextField
