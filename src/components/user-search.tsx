@@ -123,7 +123,7 @@ const UserSearchPanel = () => {
     langSetting !== undefined && langSetting.Options !== undefined
       ? langSetting.Options.map(l => ({
           text: l.Text ? l.Text : '',
-          value: new Query(a => a.term(`Language:${l.Value}`)),
+          value: new Query(a => a.term(`Language:${l.Text}`)),
         }))
       : [{ text: 'English', value: new Query(a => a.term(`Language:en`)) }]
 
@@ -131,7 +131,7 @@ const UserSearchPanel = () => {
     genderSetting !== undefined && genderSetting.Options !== undefined
       ? genderSetting.Options.map(l => ({
           text: l.Text ? l.Text : '',
-          value: new Query(a => a.term(`Gender:${l.Value}`)),
+          value: l.Value === '...' ? new Query(a => a) : new Query(a => a.term(`Gender:${l.Value}`)),
         }))
       : [{ text: '', value: new Query(a => a.term(`Gender:Female`)) }]
 
@@ -139,7 +139,7 @@ const UserSearchPanel = () => {
     maritalSetting !== undefined && maritalSetting.Options !== undefined
       ? maritalSetting.Options.map(l => ({
           text: l.Text ? l.Text : '',
-          value: new Query(a => a.term(`MaritalStatus:${l.Value}`)),
+          value: l.Value === '...' ? new Query(a => a) : new Query(a => a.term(`MaritalStatus:${l.Value}`)),
         }))
       : [{ text: '', value: new Query(a => a.term(`MaritalStatus:`)) }]
   /**
@@ -292,20 +292,6 @@ const UserSearchPanel = () => {
                   }
                 />
 
-                <TextField
-                  fieldName="Department"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'Department')}
-                  helperText={
-                    searchdata.departmentFieldQuery
-                      ? `Field Query: ${searchdata.departmentFieldQuery}`
-                      : 'Query on the Department'
-                  }
-                />
-
                 <FormControl>
                   <InputLabel htmlFor="type-filter">Language</InputLabel>
                   <PresetField
@@ -352,20 +338,6 @@ const UserSearchPanel = () => {
                       : 'Filter by marital status'}
                   </FormHelperText>
                 </FormControl>
-
-                <TextField
-                  fieldName="MaritalStatus"
-                  onQueryChange={(key, query) => {
-                    setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                    _options.updateQuery(key, query)
-                  }}
-                  fieldSetting={_options.schema.FieldSettings.find(s => s.Name === 'MaritalStatus')}
-                  helperText={
-                    searchdata.maritalstatusFieldQuery
-                      ? `Field Query: ${searchdata.maritalstatusFieldQuery}`
-                      : 'Query on the MaritalStatus'
-                  }
-                />
 
                 <TextField
                   fieldName="Phone"
