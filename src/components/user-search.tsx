@@ -192,7 +192,10 @@ const UserSearchPanel = () => {
                   justifyContent: 'space-evenly',
                   flexWrap: 'wrap',
                 }}
-                onSubmit={() => sendRequest()}
+                onSubmit={ev => {
+                  ev.preventDefault()
+                  sendRequest()
+                }}
                 noValidate={true}
                 autoComplete="off">
                 <TextField
@@ -350,57 +353,6 @@ const UserSearchPanel = () => {
                     searchdata.phoneFieldQuery ? `Field Query: ${searchdata.phoneFieldQuery}` : 'Query on the Phone'
                   }
                 />
-
-                {/* <FormControlA>
-                  <InputLabel htmlFor="type-filter">Created at</InputLabel>
-                  <PresetField
-                    fieldName="CreationDate"
-                    presets={[
-                      { text: '-', value: new Query(a => a) },
-                      { text: 'Today', value: new Query(a => a.term('CreationDate:>@@Today@@')) },
-                      {
-                        text: 'Yesterday',
-                        value: new Query(a =>
-                          a.term('CreationDate:>@@Yesterday@@').and.term('CreationDate:<@@Today@@'),
-                        ),
-                      },
-                    ]}
-                    onQueryChange={(key, query) => {
-                      setSearchdata(prevState => ({ ...prevState, creationDateQuery: query.toString() }))
-                      _options.updateQuery(key, query)
-                    }}
-                  />
-                  <FormHelperText>
-                    {searchdata.creationDateQuery.length ? searchdata.creationDateQuery : 'Filter by creation date'}
-                  </FormHelperText>
-                </FormControlA> */}
-
-                {/* <FormControlA style={{ minWidth: 150 }}>
-                  <InputLabel htmlFor="type-filter">Filter by type</InputLabel>
-                  <TypeField
-                    onQueryChange={query => {
-                      setSearchdata(prevState => ({ ...prevState, typeFieldQuery: query.toString() }))
-                      _options.updateQuery('Type', query)
-                    }}
-                    id="type-filter"
-                    types={[User]}
-                    schemaStore={repo.schemas}
-                    getMenuItem={(schema, isSelected) => (
-                      <MenuItem key={schema.ContentTypeName} value={schema.ContentTypeName} title={schema.Description}>
-                        {isSelected ? (
-                          <Checkbox checked={true} style={{ padding: 0 }} />
-                        ) : (
-                          <Icon type={iconType.materialui} iconName={icons[schema.Icon.toLocaleLowerCase()]} />
-                        )}
-                        <ListItemText primary={schema.ContentTypeName} />
-                      </MenuItem>
-                    )}
-                  />
-                  <FormHelperText>
-                    {searchdata.typeFieldQuery.length ? searchdata.typeFieldQuery : 'Filter in all content types'}
-                  </FormHelperText>
-                </FormControlA> */}
-
                 <button style={{ display: 'none' }} type="submit" />
               </form>
               <Divider />
