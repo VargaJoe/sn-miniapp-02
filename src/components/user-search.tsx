@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 
-// material ui
-import AppBar from '@material-ui/core/AppBar'
+// start of material-ui components
 import Button from '@material-ui/core/Button'
-// import Checkbox from '@material-ui/core/Checkbox'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -12,10 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Divider from '@material-ui/core/Divider'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import IconButton from '@material-ui/core/IconButton'
 import InputLabel from '@material-ui/core/InputLabel'
-// import ListItemText from '@material-ui/core/ListItemText'
-// import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -23,16 +18,18 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import MaterialTextField from '@material-ui/core/TextField'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+// end of material-ui components
 
-// sensenet
+// start of sensenet components
 import { ODataCollectionResponse } from '@sensenet/client-core'
 import { ChoiceFieldSetting, GenericContent, ReferenceFieldSetting, User } from '@sensenet/default-content-types'
 import { MaterialIcon } from '@sensenet/icons-react'
 import { Query } from '@sensenet/query'
 import { AdvancedSearch, PresetField, ReferenceField, TextField } from '@sensenet/search-react'
+import { BrowseView } from '@sensenet/controls-react'
 import { useRepository } from '../hooks/use-repository'
+// end of sensenet components
 
 const localStorageKey = 'sn-advanced-search-demo'
 
@@ -65,8 +62,8 @@ interface ExampleComponentState {
   maritalstatusFieldQuery: string
   phoneFieldQuery: string
   fullQuery: string
-  isSettingsOpen: boolean
-  isHelpOpen: boolean
+  selectedUser?: User
+  isProfilOpen: boolean
   response?: ODataCollectionResponse<User>
 }
 
@@ -95,8 +92,7 @@ const UserSearchPanel = () => {
     maritalstatusFieldQuery: '',
     phoneFieldQuery: '',
     fullQuery: 'TypeIs:User',
-    isSettingsOpen: localStorage.getItem(localStorageKey) === null, // false,
-    isHelpOpen: false,
+    isProfilOpen: false,
   })
 
   const sendRequest = async () => {
@@ -114,7 +110,7 @@ const UserSearchPanel = () => {
     setSearchdata(prevState => ({ ...prevState, response: result }))
   }
 
-  // get language options
+  // get choice options from fieldsettings
   const fieldSettings = repo.schemas.getSchemaByName('User').FieldSettings
   const langSetting = fieldSettings.find(f => f.Name === 'Language') as ChoiceFieldSetting
   const genderSetting = fieldSettings.find(f => f.Name === 'Gender') as ChoiceFieldSetting
@@ -142,32 +138,12 @@ const UserSearchPanel = () => {
           value: l.Value === '...' ? new Query(a => a) : new Query(a => a.term(`MaritalStatus:${l.Value}`)),
         }))
       : [{ text: '', value: new Query(a => a.term(`MaritalStatus:`)) }]
+
   /**
    * Renders the component
    */
   return (
     <div style={{ height: '100%' }}>
-      <AppBar position="static" color="primary">
-        <Toolbar>
-          <Typography
-            variant="h6"
-            color="inherit"
-            style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <MaterialIcon
-                iconName="search"
-                style={{ color: 'white', padding: '0 15px 0 0', verticalAlign: 'text-bottom' }}
-              />
-              Search Component Demo
-            </div>
-            <div>
-              <IconButton onClick={() => setSearchdata(prevState => ({ ...prevState, isHelpOpen: true }))} title="Help">
-                <MaterialIcon iconName="help" style={{ color: 'white', verticalAlign: 'text-bottom' }} />
-              </IconButton>
-            </div>
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <div
         style={{
           height: 'calc(100% - 80px)',
@@ -401,7 +377,12 @@ const UserSearchPanel = () => {
                         ''
                       )}
                     </TableCell>
-                    <TableCell>{r.FullName ? r.FullName : r.LoginName}</TableCell>
+                    <TableCell
+                      onClick={() =>
+                        setSearchdata(prevState => ({ ...prevState, selectedUser: r, isProfilOpen: true }))
+                      }>
+                      {r.FullName ? r.FullName : r.LoginName}
+                    </TableCell>
                     <TableCell>{r.Email}</TableCell>
                   </TableRow>
                 ))}
@@ -411,32 +392,16 @@ const UserSearchPanel = () => {
         ) : null}
       </div>
       <Dialog
-        open={searchdata.isHelpOpen}
-        onClose={() => setSearchdata(prevState => ({ ...prevState, isHelpOpen: false }))}>
-        <DialogTitle>Help</DialogTitle>
+        open={searchdata.isProfilOpen}
+        onClose={() => setSearchdata(prevState => ({ ...prevState, isProfilOpen: false }))}>
+        <DialogTitle>Profile</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This example application is a showcase for the{' '}
-            <a href="http://npmjs.com/package/@sensenet/search-react" target="_blank" rel="noopener noreferrer">
-              @sensenet/search-react
-            </a>{' '}
-            package and demonstrates the basic functionality with some predefined field filters and an example query
-            result.
-            <br />
-            In order to get the result, please set up your repository in the <strong>Settings</strong> section and check
-            that
-            <li>
-              Your{' '}
-              <a href="https://community.sensenet.com/docs/cors/" target="_blank" rel="noopener noreferrer">
-                CORS
-              </a>{' '}
-              settings are correct
-            </li>
-            <li>You have logged in / have appropriate rights for the content</li>
+            {searchdata.selectedUser ? <BrowseView content={searchdata.selectedUser} repository={repo} /> : ''}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setSearchdata(prevState => ({ ...prevState, isHelpOpen: false }))}>Ok</Button>
+          <Button onClick={() => setSearchdata(prevState => ({ ...prevState, isProfilOpen: false }))}>Ok</Button>
         </DialogActions>
       </Dialog>
     </div>
