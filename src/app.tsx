@@ -13,7 +13,6 @@ import snLogo from './assets/sensenet_logo_transparent.png'
 
 // start of component imports
 import HeaderPanel from './components/header'
-import UserListPanel from './components/user-list'
 import UserSearch from './components/user-search'
 // end of component imports
 
@@ -78,7 +77,6 @@ export const App: React.FunctionComponent = (props: Props) => {
         <Grid container>
           <Grid item xs={12}>
             <UserSearch />
-            <UserListPanel />
           </Grid>
         </Grid>
       </Container>
