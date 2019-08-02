@@ -1,7 +1,8 @@
 # sn-react-typescript-search-users
+
 _url needs to be replaced_
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f3d58505-1366-49cc-b6f2-4b2fcc560966/deploy-status)](https://app.netlify.com/sites/sntasklist/deploys)
- 
+
 Search Users app for sensenet SPA development with React and Typescript
 
 ## Package content
@@ -62,12 +63,11 @@ You can simply run `npm run build` or `yarn build` to create the bundle. It will
 1. Select GitHub at _Continuous Deployment_ section
 1. Authorize Netlify on GitHub modal window
 1. Select repository for deploy
-    1. If you don't see your repository, you can configure Netlify from the link at the bottom of the page
-1. At Deploy settings you can configure 
-    1. from which branch it will be created
-    1. Build command: `npm run build`
-    1. Publish directory: `bundle/`
-
+   1. If you don't see your repository, you can configure Netlify from the link at the bottom of the page
+1. At Deploy settings you can configure
+   1. from which branch it will be created
+   1. Build command: `npm run build`
+   1. Publish directory: `bundle/`
 
 ## Recommended goodies
 
