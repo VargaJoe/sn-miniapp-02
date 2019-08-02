@@ -237,14 +237,14 @@ const UserSearchPanel = () => {
                     ...(_options.schema.FieldSettings.find(s => s.Name === 'Manager') as ReferenceFieldSetting),
                     AllowedTypes: ['User'],
                   }}
-                  fetchItems={async (q: Query<GenericContent>) => {
+                  fetchItems={async (fetchQuery: Query<GenericContent>) => {
                     const response = await repo.loadCollection<GenericContent>({
                       path: demoData.idOrPath as string, // ToDo: query by Id in client-core
                       oDataOptions: {
                         select: ['Id', 'Path', 'Name', 'DisplayName', 'Type'],
                         metadata: 'no',
                         inlinecount: 'allpages',
-                        query: q.toString(),
+                        query: fetchQuery.toString(),
                         top: 10,
                       },
                     })
