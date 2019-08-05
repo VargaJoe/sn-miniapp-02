@@ -2,7 +2,7 @@
 
 _url needs to be replaced_
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f3d58505-1366-49cc-b6f2-4b2fcc560966/deploy-status)](https://app.netlify.com/sites/sntasklist/deploys)
-
+ 
 Search Users app for sensenet SPA development with React and Typescript
 
 ## Package content
