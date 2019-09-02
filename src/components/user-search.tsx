@@ -199,7 +199,7 @@ const UserSearchPanel = () => {
                   helperText={
                     searchdata.emailFieldQuery
                       ? `Field Query: ${searchdata.emailFieldQuery}`
-                      : 'Query on the email address'
+                      : 'Query on the Email Address'
                   }
                 />
 
@@ -314,7 +314,7 @@ const UserSearchPanel = () => {
                   <FormHelperText>
                     {searchdata.genderFieldQuery.length
                       ? searchdata.maritalstatusFieldQuery
-                      : 'Filter by marital status'}
+                      : 'Filter by Marital Status'}
                   </FormHelperText>
                 </FormControl>
 
