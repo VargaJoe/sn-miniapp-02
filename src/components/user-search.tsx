@@ -195,6 +195,20 @@ const UserSearchPanel = () => {
                   autoComplete="off">
                   <Grid item xs={12} md={4}>
                     <TextField
+                      fieldName="TypeIs"
+                      onQueryChange={(key, query) => {
+                        setSearchdata(prevState => ({
+                          ...prevState,
+                          typeFieldQuery: query.toString(),
+                        }))
+                        _options.updateQuery(key, query)
+                      }}
+                      value="User"
+                      fieldKey=""
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
                       fieldName="LoginName"
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
@@ -460,9 +474,7 @@ const UserSearchPanel = () => {
         onClose={() => setSearchdata(prevState => ({ ...prevState, isProfilOpen: false }))}>
         <DialogTitle>Profile</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {searchdata.selectedUser ? <BrowseView content={searchdata.selectedUser} repository={repo} /> : ''}
-          </DialogContentText>
+          {searchdata.selectedUser ? <BrowseView content={searchdata.selectedUser} repository={repo} /> : ''}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSearchdata(prevState => ({ ...prevState, isProfilOpen: false }))}>Ok</Button>
