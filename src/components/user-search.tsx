@@ -430,7 +430,9 @@ const UserSearchPanel = () => {
               </TableHead>
               <TableBody>
                 {searchdata.response.d.results.map(r => (
-                  <TableRow key={r.Id}>
+                  <TableRow
+                    key={r.Id}
+                    onClick={() => setSearchdata(prevState => ({ ...prevState, selectedUser: r, isProfilOpen: true }))}>
                     <TableCell>
                       {r.Avatar !== undefined && r.Avatar.Url ? (
                         <Avatar
@@ -442,12 +444,7 @@ const UserSearchPanel = () => {
                         ''
                       )}
                     </TableCell>
-                    <TableCell
-                      onClick={() =>
-                        setSearchdata(prevState => ({ ...prevState, selectedUser: r, isProfilOpen: true }))
-                      }>
-                      {r.FullName ? r.FullName : r.LoginName}
-                    </TableCell>
+                    <TableCell>{r.FullName ? r.FullName : r.LoginName}</TableCell>
                     <TableCell>{r.Email}</TableCell>
                   </TableRow>
                 ))}
