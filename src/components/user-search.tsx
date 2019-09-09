@@ -54,6 +54,7 @@ try {
 }
 
 interface ExampleComponentState {
+  typeFieldQuery: string
   loginnameFieldQuery: string
   emailFieldQuery: string
   fullnameFieldQuery: string
@@ -97,6 +98,7 @@ const UserSearchPanel = () => {
    * State object for the Example component
    */
   const [searchdata, setSearchdata] = useState<ExampleComponentState>({
+    typeFieldQuery: '',
     loginnameFieldQuery: '',
     emailFieldQuery: '',
     fullnameFieldQuery: '',
