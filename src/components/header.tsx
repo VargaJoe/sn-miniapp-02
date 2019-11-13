@@ -11,7 +11,7 @@ import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
 // end of material imports
 
 // start of sensenet imports
-import { useRepository } from '../hooks/use-repository'
+import { useRepository } from '@sensenet/hooks-react'
 import { useCurrentUser } from '../hooks/use-current-user'
 // end of sensenet imports
 
