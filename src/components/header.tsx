@@ -12,7 +12,6 @@ import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
 
 // start of sensenet imports
 import { useRepository } from '@sensenet/hooks-react'
-import { useCurrentUser } from '../hooks/use-current-user'
 // end of sensenet imports
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const HeaderPanel = () => {
-  const usr = useCurrentUser()
   const repo = useRepository() // Custom hook that will return with a Repository object
   const classes = useStyles()
 
@@ -48,7 +46,7 @@ const HeaderPanel = () => {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            {usr ? usr.DisplayName : ''}
+            SN Search
           </Typography>
           <IconButton
             edge="start"

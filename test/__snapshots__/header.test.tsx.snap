@@ -12,7 +12,7 @@ exports[`Header Matches snapshot 1`] = `
         className="makeStyles-title-4"
         variant="h6"
       >
-        Visitor
+        SN Search
       </WithStyles(ForwardRef(Typography))>
       <WithStyles(ForwardRef(IconButton))
         aria-label="logout"
