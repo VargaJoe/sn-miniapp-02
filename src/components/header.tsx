@@ -48,7 +48,7 @@ const HeaderPanel = () => {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            {usr.DisplayName}
+            {usr ? usr.DisplayName : ''}
           </Typography>
           <IconButton
             edge="start"
