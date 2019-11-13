@@ -9,18 +9,14 @@ describe('Header', () => {
     const l = shallow(<HeaderPanel />)
     expect(l).toMatchSnapshot()
   })
-  it.only('Logout function', () => {
-    const repository = {
-      authentication: {
-        logout: jest.fn(),
-      },
-    }
+  it('Logout function', () => {
+    const logoutfn = jest.fn()
     const wrapper = mount(
-      <RepositoryContext.Provider value={repository as any}>
+      <RepositoryContext.Provider value={{ authentication: { logout: logoutfn } } as any}>
         <HeaderPanel />
       </RepositoryContext.Provider>,
     )
     wrapper.find(IconButton).simulate('click')
-    expect(repository.authentication.logout).toBeCalled()
+    expect(logoutfn).toBeCalled()
   })
 })
