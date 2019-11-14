@@ -69,7 +69,7 @@ describe('The user search component instance', () => {
     expect(TableRows.length).toEqual(TestUserList.length)
   })
 
-  it.only('should open modal window', async () => {
+  it('should open modal window', async () => {
     await act(async () => {
       wrapper = mount(
         <RepositoryContext.Provider value={repo as any}>
