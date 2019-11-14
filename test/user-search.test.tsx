@@ -81,14 +81,7 @@ describe('The user search component instance', () => {
     await act(async () => {
       ;(formpanel.prop('onSubmit') as any)({ preventDefault: jest.fn() })
     })
-    console.log(
-      wrapper
-        .update()
-        .find(TableBody)
-        .find(TableRow)
-        .at(1)
-        .html(),
-    )
+
     act(() => {
       wrapper
         .update()
