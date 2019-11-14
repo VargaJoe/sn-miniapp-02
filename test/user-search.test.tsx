@@ -69,7 +69,7 @@ describe('The user search component instance', () => {
     expect(TableRows.length).toEqual(TestUserList.length)
   })
 
-  it.only('should open modal window', async () => {
+  it('should open modal window', async () => {
     await act(async () => {
       wrapper = mount(
         <RepositoryContext.Provider value={repo as any}>
@@ -103,5 +103,72 @@ describe('The user search component instance', () => {
         .find(Dialog)
         .prop('open'),
     ).toBe(true)
+  })
+  it('should close modal window on close button', async () => {
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+    const formpanel = wrapper.update().find('form')
+    await act(async () => {
+      ;(formpanel.prop('onSubmit') as any)({ preventDefault: jest.fn() })
+    })
+    act(() => {
+      wrapper
+        .update()
+        .find(TableBody)
+        .find(TableRow)
+        .at(1)
+        .prop('onClick')()
+    })
+    act(() => {
+      wrapper
+        .update()
+        .find(Dialog)
+        .prop('onClose')()
+    })
+    expect(
+      wrapper
+        .update()
+        .find(Dialog)
+        .prop('open'),
+    ).toBe(false)
+  })
+  it('should close modal window on OK button', async () => {
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+    const formpanel = wrapper.update().find('form')
+    await act(async () => {
+      ;(formpanel.prop('onSubmit') as any)({ preventDefault: jest.fn() })
+    })
+    act(() => {
+      wrapper
+        .update()
+        .find(TableBody)
+        .find(TableRow)
+        .at(1)
+        .prop('onClick')()
+    })
+    act(() => {
+      wrapper
+        .update()
+        .find(Dialog)
+        .find(Button)
+        .prop('onClick')()
+    })
+    expect(
+      wrapper
+        .update()
+        .find(Dialog)
+        .prop('open'),
+    ).toBe(false)
   })
 })
