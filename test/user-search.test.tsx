@@ -9,7 +9,6 @@ import TableBody from '@material-ui/core/TableBody'
 import { Dialog } from '@material-ui/core'
 import UserSearchPanel from '../src/components/user-search'
 import { TestUserList } from './_mocks_/test_contents'
-//import { Dialog } from '@material-ui/core'
 
 describe('The user search component instance', () => {
   let wrapper: any
