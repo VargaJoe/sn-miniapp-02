@@ -12,7 +12,13 @@ describe('Header', () => {
   })
   it('Logout function', async () => {
     const logoutfn = jest.fn()
-    const repo = { authentication: { logout: logoutfn } }
+    const getValue = () => {
+      return { DisplayName: 'Test man' } as any
+    }
+    const subscribe = () => {
+      return { DisplayName: 'Test man', Id: 2, Domain: 'Test man' } as any
+    }
+    const repo = { authentication: { logout: logoutfn, currentUser: { getValue, subscribe } } }
     let wrapper: any
 
     await act(async () => {
