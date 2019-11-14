@@ -9,7 +9,6 @@ import TableBody from '@material-ui/core/TableBody'
 import { Dialog } from '@material-ui/core'
 import UserSearchPanel from '../src/components/user-search'
 import { TestUserList } from './_mocks_/test_contents'
-//import { Dialog } from '@material-ui/core'
 
 describe('The user search component instance', () => {
   let wrapper: any
@@ -81,14 +80,7 @@ describe('The user search component instance', () => {
     await act(async () => {
       ;(formpanel.prop('onSubmit') as any)({ preventDefault: jest.fn() })
     })
-    console.log(
-      wrapper
-        .update()
-        .find(TableBody)
-        .find(TableRow)
-        .at(1)
-        .html(),
-    )
+
     act(() => {
       wrapper
         .update()
