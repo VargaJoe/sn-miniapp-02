@@ -190,6 +190,7 @@ const UserSearchPanel = () => {
                   autoComplete="off">
                   <Grid item xs={12} md={4}>
                     <TextField
+                      disabled
                       fieldName="TypeIs"
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
@@ -199,6 +200,7 @@ const UserSearchPanel = () => {
                         _options.updateQuery(key, query)
                       }}
                       value="User"
+                      helperText="Type"
                       fieldKey=""
                     />
                   </Grid>
