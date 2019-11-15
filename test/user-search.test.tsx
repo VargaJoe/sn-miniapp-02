@@ -253,4 +253,32 @@ describe('The user search component instance', () => {
 
     expect(querytextfield.at(1).props().value).toEqual('MaritalStatus:Single')
   })
+
+  it('should maritalstatus is empty', async () => {
+    repo.schemas = {
+      getSchemaByName: function schemasfn() {
+        return { FieldSettings: [] }
+      },
+    }
+
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+    const dropdownlang = wrapper.update().find(AdvancedSearch)
+
+    act(() => {
+      dropdownlang.prop('onQueryChanged')('MaritalStatus:Single')
+    })
+
+    const querytextfield = wrapper
+      .update()
+      .find(MaterialTextField)
+      .find("[label='Full query']")
+
+    expect(querytextfield.at(1).props().value).toEqual('MaritalStatus:Single')
+  })
 })
