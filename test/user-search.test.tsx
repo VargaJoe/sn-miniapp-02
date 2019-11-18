@@ -6,7 +6,7 @@ import { Repository } from '@sensenet/client-core'
 import Button from '@material-ui/core/Button'
 import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
-import { Dialog } from '@material-ui/core'
+import { Dialog, FormHelperText, Select, TextField } from '@material-ui/core'
 import MaterialTextField from '@material-ui/core/TextField'
 import { AdvancedSearch } from '@sensenet/search-react/dist/Components/AdvancedSearch'
 import UserSearchPanel from '../src/components/user-search'
@@ -188,7 +188,7 @@ describe('The user search component instance', () => {
     expect(querytextfield.at(1).props().value).toEqual("LoginName:'*businesscat*'")
   })
 
-  it('should change language dropdown', async () => {
+  it('should change language dropdown and change the query', async () => {
     await act(async () => {
       wrapper = mount(
         <RepositoryContext.Provider value={repo as any}>
@@ -199,7 +199,7 @@ describe('The user search component instance', () => {
     const dropdownlang = wrapper.update().find(AdvancedSearch)
 
     act(() => {
-      dropdownlang.prop('onQueryChanged')('Language:English')
+      dropdownlang.prop('onQueryChanged')('English')
     })
 
     const querytextfield = wrapper
@@ -207,7 +207,32 @@ describe('The user search component instance', () => {
       .find(MaterialTextField)
       .find("[label='Full query']")
 
-    expect(querytextfield.at(1).props().value).toEqual('Language:English')
+    expect(querytextfield.at(1).props().value).toEqual('English')
+  })
+
+  it('should change language dropdown and change the helpertext', async () => {
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+
+    const langpresetfield = wrapper.update().find(Select)
+
+    act(() => {
+      langpresetfield.at(0).prop('onChange')({ target: { value: 'English' } })
+    })
+
+    const helperText = wrapper
+      .update()
+      .find(FormHelperText)
+      .at(7)
+      .find('p')
+      .text()
+
+    expect(helperText).toEqual('Language:English')
   })
 
   it('should change Gender dropdown', async () => {
@@ -230,6 +255,31 @@ describe('The user search component instance', () => {
       .find("[label='Full query']")
 
     expect(querytextfield.at(1).props().value).toEqual('Gender:Female')
+  })
+
+  it('should change Gender dropdown and change the helpertext', async () => {
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+
+    const langpresetfield = wrapper.update().find(Select)
+
+    act(() => {
+      langpresetfield.at(1).prop('onChange')({ target: { value: 'Female' } })
+    })
+
+    const helperText = wrapper
+      .update()
+      .find(FormHelperText)
+      .at(8)
+      .find('p')
+      .text()
+
+    expect(helperText).toEqual('Gender:Female')
   })
 
   it('should change MaritalStatus dropdown', async () => {
@@ -280,5 +330,42 @@ describe('The user search component instance', () => {
       .find("[label='Full query']")
 
     expect(querytextfield.at(1).props().value).toEqual('MaritalStatus:Single')
+  })
+
+  it('should show helpertext', async () => {
+    repo.schemas = {
+      getSchemaByName: function schemasfn() {
+        return { FieldSettings: [] }
+      },
+    }
+
+    await act(async () => {
+      wrapper = mount(
+        <RepositoryContext.Provider value={repo as any}>
+          <UserSearchPanel />
+        </RepositoryContext.Provider>,
+      )
+    })
+    const textfield = wrapper.update().find(TextField)
+
+    textfield.forEach((element: any, index: number) => {
+      if ((element.prop('disabled') === undefined || index === 0) && index !== 5) {
+        act(() => {
+          element.prop('onChange')({ currentTarget: { value: 'test' } })
+        })
+
+        const helperText = wrapper
+          .update()
+          .find(TextField)
+          .at(index)
+          .prop('helperText')
+
+        if (index === 0) {
+          expect(helperText).toContain(`Type`)
+        } else if (element.prop('disabled') === undefined) {
+          expect(helperText).toContain(`'*test*'`)
+        }
+      }
+    })
   })
 })

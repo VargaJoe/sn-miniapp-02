@@ -229,7 +229,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          emailFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -247,7 +247,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          fullnameFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -265,7 +265,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          jobtitleFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -313,7 +313,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          departmentFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -390,7 +390,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          phoneFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
