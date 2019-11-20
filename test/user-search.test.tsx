@@ -11,7 +11,6 @@ import MaterialTextField from '@material-ui/core/TextField'
 import { AdvancedSearch } from '@sensenet/search-react/dist/Components/AdvancedSearch'
 import UserSearchPanel from '../src/components/user-search'
 import { TestUserList } from './_mocks_/test_contents'
-//import { PresetField } from '@sensenet/search-react/dist/Components/Fields/PresetField'
 
 describe('The user search component instance', () => {
   let wrapper: any
