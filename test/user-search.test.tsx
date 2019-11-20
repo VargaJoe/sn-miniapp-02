@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
 import { Dialog, FormHelperText, Select, TextField } from '@material-ui/core'
 import MaterialTextField from '@material-ui/core/TextField'
-import { AdvancedSearch } from '@sensenet/search-react/dist/Components/AdvancedSearch'
+import { AdvancedSearch } from '@sensenet/search-react'
 import UserSearchPanel from '../src/components/user-search'
 import { TestUserList } from './_mocks_/test_contents'
 
