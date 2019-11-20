@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Divider from '@material-ui/core/Divider'
 import FormControl from '@material-ui/core/FormControl'
@@ -31,7 +30,7 @@ import { MaterialIcon } from '@sensenet/icons-react'
 import { Query } from '@sensenet/query'
 import { AdvancedSearch, PresetField, ReferenceField, TextField } from '@sensenet/search-react'
 import { BrowseView } from '@sensenet/controls-react'
-import { useRepository } from '../hooks/use-repository'
+import { useRepository } from '@sensenet/hooks-react'
 // end of sensenet components
 
 const localStorageKey = 'sn-advanced-search-demo'
@@ -83,10 +82,6 @@ const useStyles = makeStyles({
     height: 200,
   },
 })
-
-// const icons: any = {
-//   user: 'person',
-// }
 
 /**
  * User search
@@ -195,6 +190,7 @@ const UserSearchPanel = () => {
                   autoComplete="off">
                   <Grid item xs={12} md={4}>
                     <TextField
+                      disabled
                       fieldName="TypeIs"
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
@@ -204,6 +200,7 @@ const UserSearchPanel = () => {
                         _options.updateQuery(key, query)
                       }}
                       value="User"
+                      helperText="Type"
                       fieldKey=""
                     />
                   </Grid>
@@ -232,7 +229,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          emailFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -250,7 +247,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          fullnameFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -268,7 +265,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          jobtitleFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -316,7 +313,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          departmentFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}
@@ -393,7 +390,7 @@ const UserSearchPanel = () => {
                       onQueryChange={(key, query) => {
                         setSearchdata(prevState => ({
                           ...prevState,
-                          typeFieldQuery: query.toString(),
+                          phoneFieldQuery: query.toString(),
                         }))
                         _options.updateQuery(key, query)
                       }}

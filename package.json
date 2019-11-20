@@ -17,7 +17,7 @@
   "scripts": {
     "fix:prettier": "prettier \"{,!(dist|temp|bundle)/**/}*.{ts,tsx}\" --write",
     "build": "rimraf bundle && webpack",
-    "start": "webpack-dev-server --progress --port 8081",
+    "start": "webpack-dev-server --progress",
     "test": "jest --coverage",
     "lint": "eslint . --ext .tsx,.ts --cache"
   },
@@ -29,20 +29,20 @@
   "license": "GPL-2.0",
   "homepage": "https://sensenet.com",
   "devDependencies": {
-    "@types/enzyme": "^3.9.3",
-    "@types/jest": "^24.0.13",
-    "@types/react": "^16.8.24",
-    "@types/react-dom": "^16.8.4",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
+    "@types/enzyme": "^3.10.3",
+    "@types/jest": "^24.0.23",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^3.0.0",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.2",
-    "enzyme-to-json": "^3.3.5",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "enzyme-to-json": "^3.4.3",
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-cypress": "^2.6.1",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jsdoc": "^8.0.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -51,31 +51,34 @@
     "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.3.0",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "lint-staged": "^8.1.7",
     "prettier": "^1.17.1",
     "rimraf": "^2.6.3",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "ts-config-webpack-plugin": "^1.3.1",
-    "ts-jest": "^24.0.2",
+    "ts-jest": "^24.1.0",
     "tslib": "^1.9.3",
     "typescript": "^3.5.2",
     "url-loader": "^2.0.1",
-    "webpack": "^4.39.0",
+    "webpack": "^4.32.2",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
   },
   "dependencies": {
-    "@material-ui/core": "^4.4.1",
-    "@material-ui/icons": "^4.4.1",
-    "@sensenet/client-core": "^2.2.0",
-    "@sensenet/controls-react": "^3.1.0",
-    "@sensenet/default-content-types": "^2.0.0",
-    "@sensenet/search-react": "^1.2.8",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "@material-ui/core": "^4.2.0",
+    "@material-ui/icons": "^4.2.1",
+    "@sensenet/client-core": "^2.2.2",
+    "@sensenet/controls-react": "^3.2.0",
+    "@sensenet/default-content-types": "^2.0.2",
+    "@sensenet/hooks-react": "^1.0.1",
+    "@sensenet/icons-react": "^1.2.14",
+    "@sensenet/search-react": "^1.2.10",
+    "moment": "^2.24.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.10.2"
   },
   "husky": {
     "hooks": {
@@ -103,6 +106,9 @@
       "<rootDir>/test",
       "<rootDir>/src"
     ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/jest/cssTransform.js"
+    },
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest",
       "^.+\\.css$": "<rootDir>/jest/cssTransform.js",
@@ -114,8 +120,7 @@
       }
     },
     "testMatch": [
-      "**/test/*.+(ts|tsx|js)",
-      "**/test/**/*.+(ts|tsx|js)"
+      "**/test/*.+(ts|tsx|js)"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest/setup.js"
@@ -124,7 +129,11 @@
       "enzyme-to-json/serializer"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}"
+      "src/**/*.{ts,tsx}",
+      "!src/index.tsx",
+      "!src/components/login-form.tsx",
+      "!src/context/*",
+      "!src/hooks/**/*.{ts,tsx}"
     ],
     "coverageReporters": [
       "json",
