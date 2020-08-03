@@ -1,6 +1,5 @@
 # sn-react-typescript-search-users
 
-_url needs to be replaced_
 [![Netlify Status](https://api.netlify.com/api/v1/badges/087c261a-21cf-4451-845d-879cb1c06a16/deploy-status)](https://app.netlify.com/sites/snusersearch/deploys)
  
 Search Users app for sensenet SPA development with React and Typescript
